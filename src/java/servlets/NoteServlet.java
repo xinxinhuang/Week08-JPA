@@ -65,11 +65,15 @@ public class NoteServlet extends HttpServlet {
         NoteService ns = new NoteService();
 
         String contents = request.getParameter("contents");
+        
         try {
             if (action.equals("delete")) {
-                ns.delete(selectedNoteId);
+                Note note = ns.get(selectedNoteId);
+                ns.delete(note);
             } else if (action.equals("edit")) {
-                ns.update(selectedNoteId, contents);
+                Note note = ns.get(selectedNoteId);
+                note.setContents(contents);
+                ns.update(note);
             } else if (action.equals("add")) {
                 ns.insert(contents);
             }
